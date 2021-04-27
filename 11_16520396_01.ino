@@ -1,21 +1,21 @@
-const int pingPin = 7;
+const int pingPin = 7;             // pin Arduino yang akan membaca output sensor
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(9600);              // memulai port serial
 }
 void loop() {
-  long duration, cm;
+  long duration, cm;               // variabel untuk simpan nilai durasi dan jarak (cm)
   
-  pinMode(pingPin, OUTPUT);
-  digitalWrite(pingPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(pingPin, HIGH);
-  delayMicroseconds(2);
-  digitalWrite(pingPin, LOW);
+  pinMode(pingPin, OUTPUT);        // atur pin sebagai OUTPUT
+  digitalWrite(pingPin, LOW);      // beri sinyal awal LOW
+  delayMicroseconds(2);            // jeda 2 μs
+  digitalWrite(pingPin, HIGH);     // trigger sensor dengan sinyal HIGH
+  delayMicroseconds(5);            // trigger sensor selama 5 μs
+  digitalWrite(pingPin, LOW);      // beri sinyal LOW
   
-  pinMode(pingPin,INPUT);
-  duration = pulseIn(pingPin, HIGH);
-  cm = microsecondsToCentimeters(duration);
+  pinMode(pingPin,INPUT);                     // atur pin sebagai INPUT
+  duration = pulseIn(pingPin, HIGH);          // sinyal HIGH untuk dapat durasi (dalam μs)
+  cm = microsecondsToCentimeters(duration);   // konversi μs ke cm
   Serial.print(cm);
   Serial.print("cm");
   Serial.println();
@@ -23,5 +23,7 @@ void loop() {
 }
 
 long microsecondsToCentimeters(long microseconds) {
+  // kecepatan suara 340 m/s atau 29 μs/cm
+  // dibagi dua untuk mencari jarak sensor-objek
   return microseconds / 29 / 2;
 }
